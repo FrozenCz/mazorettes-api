@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Mazorettes",
+      "Group": "Servers",
+      "Host": "postgresDB_mazorettes",
+      "Port": 5432,
+      "PasswordDB": "postgres",
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "PassFile": "/pgpass",
+      "SSLMode": "prefer"
+    }
+  }
+}
