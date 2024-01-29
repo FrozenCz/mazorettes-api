@@ -24,4 +24,11 @@ export class AuthService {
   async isValid(user: string): Promise<boolean> {
     return this.user === user;
   }
+
+  async setReferee(refereeNumber: number) {
+    const payload = { user: this.user, refereeNumber };
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+    };
+  }
 }

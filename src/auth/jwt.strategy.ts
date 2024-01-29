@@ -5,8 +5,8 @@ import { jwtModuleOptions } from './jwt.config';
 import { AuthService } from './auth.service';
 
 export interface JwtPayloadInterface {
-  logon: string;
-  rights: string;
+  user: string;
+  refereeNumber: number | undefined;
 }
 
 @Injectable()
@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayloadInterface): Promise<boolean> {
-    if (await this.authService.isValid(payload.logon)) {
+    if (await this.authService.isValid(payload.user)) {
       return true;
     }
     throw new UnauthorizedException();
