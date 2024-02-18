@@ -1,5 +1,4 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Category } from './model';
 
 @Entity('results')
 export class ResultEntity extends BaseEntity {
@@ -14,9 +13,6 @@ export class ResultEntity extends BaseEntity {
 
   @Column()
   note: string;
-
-  @Column()
-  category: Category;
 
   @Column()
   costumes: number;

@@ -1,10 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Assignee, Category, Result, SetResult } from './model';
 import { ResultEntity } from './result.entity';
+import { AttendeeEntity } from '../attendee/attendee.entity';
 
 @Injectable()
 export class MazorettesService {
   async setResults(result: SetResult): Promise<void> {
+    try {
+      await AttendeeEntity.findOne({
+        where: { startNumber: result.ordNumber },
+      });
+    } catch (e) {
+      throw new NotFoundException(`User ${result.ordNumber} not found`);
+    }
+
     let resultEntity = await ResultEntity.findOne({
       where: {
         ordNumber: result.ordNumber,
@@ -18,7 +27,6 @@ export class MazorettesService {
     resultEntity.refereeNumber = result.refereeNumber;
     resultEntity.ordNumber = result.ordNumber;
     resultEntity.note = result.note;
-    resultEntity.category = result.category;
     resultEntity.costumes = result.costumes;
     resultEntity.choreography = result.choreography;
     resultEntity.formationChange = result.formationChange;
@@ -52,7 +60,6 @@ export class MazorettesService {
   private createEmptyAssignee(ordNumber: number): Assignee {
     return {
       ordNumber,
-      category: {},
       choreography: {},
       difficulty: {},
       costumes: {},
@@ -63,12 +70,10 @@ export class MazorettesService {
       notes: {},
       synchro: {},
       formationChange: {},
-      mainCategory: Category.solo,
     };
   }
 
   private fuzeValues(assignee: Assignee, result: ResultEntity): Assignee {
-    assignee.category[result.refereeNumber] = result.category;
     assignee.notes[result.refereeNumber] = result.note;
     assignee.costumes[result.refereeNumber] = result.costumes;
     assignee.choreography[result.refereeNumber] = result.choreography;
@@ -79,7 +84,6 @@ export class MazorettesService {
     assignee.faults[result.refereeNumber] = result.faults;
     assignee.overall[result.refereeNumber] = result.overall;
     assignee.synchro[result.refereeNumber] = result.synchro;
-    assignee.mainCategory = this.getMainCategory(assignee.category);
     return assignee;
   }
 

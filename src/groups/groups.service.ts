@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { GroupEntity } from './group.entity';
 import { CreateGroupDTO } from './group.dto';
+import { AttendeeEntity } from '../attendee/attendee.entity';
 
 @Injectable()
 export class GroupsService {
@@ -33,7 +38,17 @@ export class GroupsService {
       throw new NotFoundException(`Group with uuid ${uuid} not found`);
     }
 
-    // todo: pokud tam jsou ucastnici, tak nesmi jit odebrat
+    let attendees;
+    try {
+      attendees = await AttendeeEntity.find({ where: { groupUuid: uuid } });
+    } catch (e) {
+      console.log(e);
+    }
+
+    if (attendees && attendees.length > 0) {
+      throw new BadRequestException('There are some attendees in group');
+    }
+
     return group.remove();
   }
 }

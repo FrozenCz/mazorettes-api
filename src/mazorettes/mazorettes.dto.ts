@@ -31,9 +31,6 @@ export class ResultValidation {
   @IsInt()
   formationChange: number;
 
-  @IsInt()
-  category: number;
-
   @IsString()
   note: string;
 }
