@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { AttendeeEntity } from './attendee.entity';
 import { CreateAttendeeDTO } from './attendee.dto';
 import { GroupEntity } from '../groups/group.entity';
+import { ResultEntity } from '../mazorettes/result.entity';
 
 @Injectable()
 export class AttendeeService {
@@ -34,7 +35,13 @@ export class AttendeeService {
     return attendee.save();
   }
 
-  deleteAttendee(startNumber: number) {
+  async deleteAttendee(startNumber: number) {
+    try {
+      await ResultEntity.delete({ ordNumber: startNumber });
+    } catch (e) {
+      console.log(e);
+    }
+
     return AttendeeEntity.delete({ startNumber });
   }
 }
