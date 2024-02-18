@@ -12,7 +12,7 @@ services:
     volumes:
       - ./db-init/init-schema.sh:/docker-entrypoint-initdb.d/init-schema.sh
       #      - ./db-init/db.sql:/docker-entrypoint-initdb.d/db.sql
-      - postgres:/data/postgres
+      - postgres-mazorettes:/data/postgres
     #command: --init-file /data/application/db.sql
     networks:
       - dockerNet
@@ -85,7 +85,7 @@ networks:
     driver: bridge
 
 volumes:
-  postgres:
+  postgres-mazorettes:
   pgadmin:
 
 
