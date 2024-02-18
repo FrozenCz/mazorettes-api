@@ -24,7 +24,7 @@ export class AuthController {
   @UseGuards(AuthGuard())
   @Post('referee')
   setReferee(@Body('refereeNumber', ParseIntPipe) refereeNumber: number) {
-    if (refereeNumber > 0 && refereeNumber < 5) {
+    if (refereeNumber >= 0 && refereeNumber < 5) {
       return this.authService.setReferee(refereeNumber);
     }
   }

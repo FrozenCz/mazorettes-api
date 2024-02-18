@@ -9,7 +9,6 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { ResultValidation } from './mazorettes.dto';
 import { MazorettesService } from './mazorettes.service';
-import * as timers from 'timers';
 import { GetReferee } from '../utils/get-referee.decorator';
 import { Assignee } from './model';
 

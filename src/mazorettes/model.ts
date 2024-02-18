@@ -25,7 +25,6 @@ export interface RefereeNotes {
 export enum Category {
   solo,
   duo,
-  trio,
   group,
 }
 
